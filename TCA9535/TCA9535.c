@@ -12,7 +12,7 @@
 
 void TCA9535_WriteRegister(I2C_HandleTypeDef *hi2c, uint16_t devAddr,uint8_t reg, uint8_t data)
 {
-    HAL_I2C_Mem_Write(hi2c, devAddr, reg, I2C_MEMADD_SIZE_8BIT, &data, 1, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(hi2c, devAddr, reg, I2C_MEMADD_SIZE_8BIT, &data, 1, 500);
 }
 
 
@@ -44,7 +44,7 @@ void TCA9535_WritePin(I2C_HandleTypeDef *hi2c, uint8_t port, uint8_t pin, GPIO_P
     uint8_t port_val;
 
 
-    if (HAL_I2C_Mem_Read(hi2c, I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, &port_val, 1, HAL_MAX_DELAY) != HAL_OK) {
+    if (HAL_I2C_Mem_Read(hi2c, I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, &port_val, 1, 500) != HAL_OK) {
         return;  // fail silently
     }
 
@@ -54,7 +54,7 @@ void TCA9535_WritePin(I2C_HandleTypeDef *hi2c, uint8_t port, uint8_t pin, GPIO_P
         port_val &= ~(1 << pin);
     }
 
-    HAL_I2C_Mem_Write(hi2c, I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, &port_val, 1, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(hi2c, I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, &port_val, 1, 500);
 }
 
 
@@ -63,7 +63,7 @@ uint8_t TCA9535_ReadPin(I2C_HandleTypeDef *hi2c, uint8_t port, uint8_t pin){
 		return 0xFF;
 	}
 	uint8_t data = 0;
-	if (HAL_I2C_Mem_Read(hi2c, I2C_ADDR, 2+port, I2C_MEMADD_SIZE_8BIT, &data, 1, HAL_MAX_DELAY) != HAL_OK) {
+	if (HAL_I2C_Mem_Read(hi2c, I2C_ADDR, 2+port, I2C_MEMADD_SIZE_8BIT, &data, 1, 500) != HAL_OK) {
 		return 0xFF;
 	}
 
